@@ -63,7 +63,8 @@ router.get("/api/batchget", async (ctx) => {
   console.log(statusCode)
   console.log(body)
   if (statusCode === 200) {
-    ctx.body = await body.text();
+    // ctx.body = await body.text();
+    ctx.body = 'test';
   } else {
     ctx.body = 'not ok';
   }
