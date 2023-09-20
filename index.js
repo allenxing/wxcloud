@@ -60,11 +60,15 @@ router.get("/api/batchget", async (ctx) => {
       "count":10,
     })
   })
-  if (statusCode === 200) {
-    ctx.body = await body.json();
-  } else {
-    ctx.body = 'not ok';
+  ctx.body =  {
+    statusCode,
+    body: await body.json()
   }
+  // if (statusCode === 200) {
+  //   ctx.body = await body.json();
+  // } else {
+  //   ctx.body = 'not ok';
+  // }
 });
 
 const app = new Koa();
