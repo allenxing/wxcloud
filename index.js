@@ -56,15 +56,12 @@ router.get("/api/batchget", async (ctx) => {
   const api = 'https://api.weixin.qq.com/cgi-bin/freepublish/batchget';
   const { statusCode, body } = await undici.request(api, {
     method: 'POST',
-    body: {
+    body: JSON.stringify({
       "count":10,
-    }
+    })
   })
-  console.log(statusCode)
-  console.log(body)
   if (statusCode === 200) {
-    // ctx.body = await body.text();
-    ctx.body = 'test';
+    ctx.body = await body.json();
   } else {
     ctx.body = 'not ok';
   }
