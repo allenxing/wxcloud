@@ -2,6 +2,7 @@ const Koa = require("koa");
 const Router = require("koa-router");
 const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
+const undici = require("undici");
 const fs = require("fs");
 const path = require("path");
 const { init: initDB, Counter } = require("./db");
@@ -47,6 +48,24 @@ router.get("/api/count", async (ctx) => {
 router.get("/api/wx_openid", async (ctx) => {
   if (ctx.request.headers["x-wx-source"]) {
     ctx.body = ctx.request.headers["x-wx-openid"];
+  }
+});
+
+// 获取公众号发布文章
+router.get("/api/batchget", async (ctx) => {
+  const api = 'https://api.weixin.qq.com/cgi-bin/freepublish/batchget';
+  const { statusCode,body } = await undici.request(api, {
+    method: 'POST',
+    body: {
+      "count":10,
+    }
+  })
+  console.log(statusCode)
+  console.log(body)
+  if (statusCode === 200) {
+    ctx.body = await body.json()
+  } else {
+    ctx.body = 'not ok'
   }
 });
 
