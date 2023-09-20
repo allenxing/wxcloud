@@ -54,7 +54,7 @@ router.get("/api/wx_openid", async (ctx) => {
 // 获取公众号发布文章
 router.get("/api/batchget", async (ctx) => {
   const api = 'https://api.weixin.qq.com/cgi-bin/freepublish/batchget';
-  const { statusCode,body } = await undici.request(api, {
+  const { statusCode, body } = await undici.request(api, {
     method: 'POST',
     body: {
       "count":10,
@@ -63,9 +63,9 @@ router.get("/api/batchget", async (ctx) => {
   console.log(statusCode)
   console.log(body)
   if (statusCode === 200) {
-    ctx.body = body
+    ctx.body = await body.text();
   } else {
-    ctx.body = 'not ok'
+    ctx.body = 'not ok';
   }
 });
 
